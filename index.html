@@ -25,14 +25,21 @@
     color: darkred;
   }
   .categories {
-    margin-top: 3rem;
-    text-align: left;
-    display: inline-block;
-  }
-  .categories ol {
-    font-size: 2.5rem;
-    line-height: 1.6;
-  }
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  justify-content: center;
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.categories ol {
+  list-style-position: inside;
+  padding-left: 0;
+  margin: 0;
+}
   button {
     padding: 1rem 2rem;
     margin: 1rem;
