@@ -6,56 +6,76 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 4rem;
-    font-size: 2rem; /* Base font size increased */
+    font-size: 2rem;
+    margin: 0;
+    padding: 2rem;
   }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .left-panel {
+    flex: 0 0 40%;
+    max-width: 40%;
+    text-align: left;
+  }
+
+  .right-panel {
+    flex: 1;
+  }
+
   h1 {
-    font-size: 4rem;
-    margin-bottom: 2rem;
+    font-size: 3rem;
+    margin-bottom: 1rem;
   }
+
   .letter {
     font-size: 6rem;
-    margin: 2rem 0;
+    margin: 1rem 0;
     font-weight: bold;
   }
+
   .timer {
     font-size: 4rem;
-    margin: 2rem 0;
+    margin: 1rem 0;
     color: darkred;
   }
-  .categories {
-  margin-top: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  justify-content: center;
-  text-align: left;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.categories ol {
-  list-style-position: inside;
-  padding-left: 0;
-  margin: 0;
-}
+
   button {
     padding: 1rem 2rem;
-    margin: 1rem;
+    margin: 0.5rem 1rem 0.5rem 0;
     font-size: 2rem;
     border-radius: 0.5rem;
     cursor: pointer;
   }
+
+  .categories ol {
+    list-style-position: inside;
+    padding-left: 0;
+    margin: 0;
+  }
 </style>
 </head>
 <body>
-  <h1>Scattergories Game</h1>
-  <div class="letter" id="letter">Press Start</div>
-  <div class="timer" id="timer">120</div>
-  <button onclick="startGame()">Start</button>
-  <button onclick="resetGame()">Reset</button>
-  <div class="categories" id="categories"></div>  <script>
+  <div class="container">
+    <div class="left-panel">
+      <h1>Scattergories Game</h1>
+      <div class="letter" id="letter">Press Start</div>
+      <div class="timer" id="timer">120</div>
+      <button onclick="startGame()">Start</button>
+      <button onclick="resetGame()">Reset</button>
+    </div>
+    <div class="right-panel">
+      <div class="categories" id="categories"></div>
+    </div>
+  </div>
+
+  <script>
     const validLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','W'];
     const allCategories = `A Boy's Name
 U.S. Cities
@@ -400,5 +420,6 @@ Things That Are Thick;`
       document.getElementById('timer').textContent = '120';
       document.getElementById('categories').innerHTML = '';
     }
-  </script></body>
+  </script>
+</body>
 </html>
