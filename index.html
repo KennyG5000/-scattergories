@@ -80,7 +80,7 @@
     </div>
   </div>
 
-  <audio id="tick-sound" src="tick.mp3" preload="auto"></audio>
+  
   <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
 
   <script>
@@ -415,7 +415,6 @@ Things That Are Thick;`
 
         if (timeLeft > 0) {
           tickSound.currentTime = 0;
-          tickSound.play();
         } else {
           clearInterval(timerInterval);
           bellSound.play();
