@@ -1,68 +1,70 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scattergories Game</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    font-size: 2rem;
-    margin: 0;
-    padding: 2rem;
-  }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 2rem;
+      margin: 0;
+      padding: 2rem;
+    }
 
-  .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
-  }
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+    }
 
-  .left-panel {
-    flex: 0 0 40%;
-    max-width: 40%;
-    text-align: left;
-  }
+    .left-panel {
+      flex: 0 0 40%;
+      max-width: 40%;
+      text-align: left;
+    }
 
-  .right-panel {
-    flex: 1;
-  }
+    .right-panel {
+      flex: 1;
+    }
 
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
 
-  .letter {
-    font-size: 6rem;
-    margin: 1rem 0;
-    font-weight: bold;
-  }
+    .letter {
+      font-size: 6rem;
+      margin: 1rem 0;
+      font-weight: bold;
+    }
 
-  .timer {
-    font-size: 4rem;
-    margin: 1rem 0;
-    color: darkred;
-  }
+    .timer {
+      font-size: 4rem;
+      margin: 1rem 0;
+      color: darkred;
+    }
 
-  button {
-    padding: 1rem 2rem;
-    margin: 0.5rem 1rem 0.5rem 0;
-    font-size: 2rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
+    button {
+      padding: 1rem 2rem;
+      margin: 0.5rem 1rem 0.5rem 0;
+      font-size: 2rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
 
-.categories ol {
-  list-style-position: inside;
-  padding-left: 0;
-  margin: 0;
-}
-.categories ol li {
-  font-size: 3rem;
-}
-</style>
+    .categories ol {
+      list-style-position: inside;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .categories ol li {
+      font-size: 3rem;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -78,9 +80,13 @@
     </div>
   </div>
 
+  <audio id="tick-sound" src="tick.mp3" preload="auto"></audio>
+  <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
+
   <script>
     const validLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','W'];
-    const allCategories = `A Boy's Name
+    
+    const allCategories = `
 U.S. Cities
 Things That Are Cold
 School Supplies
@@ -385,6 +391,9 @@ Things That Are Thick;`
     let timerInterval;
     let timeLeft = 120;
 
+    const tickSound = document.getElementById('tick-sound');
+    const bellSound = document.getElementById('bell-sound');
+
     function getRandomLetter() {
       const index = Math.floor(Math.random() * validLetters.length);
       return validLetters[index];
@@ -399,11 +408,17 @@ Things That Are Thick;`
       const timerEl = document.getElementById('timer');
       timeLeft = 120;
       timerEl.textContent = timeLeft;
+
       timerInterval = setInterval(() => {
         timeLeft--;
         timerEl.textContent = timeLeft;
-        if (timeLeft <= 0) {
+
+        if (timeLeft > 0) {
+          tickSound.currentTime = 0;
+          tickSound.play();
+        } else {
           clearInterval(timerInterval);
+          bellSound.play();
         }
       }, 1000);
     }
