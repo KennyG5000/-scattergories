@@ -1,441 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scattergories Game</title>
+  <meta charset="UTF-8">
+  <title>Scattergories Timer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      font-size: 2rem;
+      text-align: center;
+      padding: 2vh;
       margin: 0;
-      padding: 2rem;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 2rem;
-    }
-
-    .left-panel {
-      flex: 0 0 40%;
-      max-width: 40%;
-      text-align: left;
-    }
-
-    .right-panel {
-      flex: 1;
+      background-color: #f0f0f0;
+      box-sizing: border-box;
     }
 
     h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 5vw;
     }
 
-    .letter {
-      font-size: 6rem;
-      margin: 1rem 0;
-      font-weight: bold;
+    #letter {
+      font-size: 15vw;
+      margin: 2vh 0;
     }
 
-    .timer {
-      font-size: 4rem;
-      margin: 1rem 0;
-      color: darkred;
+    #timer {
+      font-size: 10vw;
+      margin: 2vh 0;
+    }
+
+    ul#categories {
+      list-style: none;
+      padding: 0;
+      margin: 2vh auto;
+      width: 90vw;
+      font-size: 4vw;
+    }
+
+    li {
+      padding: 1vh 0;
+      word-wrap: break-word;
+      white-space: normal;
     }
 
     button {
-      padding: 1rem 2rem;
-      margin: 0.5rem 1rem 0.5rem 0;
-      font-size: 2rem;
-      border-radius: 0.5rem;
+      font-size: 4vw;
+      padding: 1vh 2vw;
+      margin-top: 2vh;
       cursor: pointer;
-    }
-
-    .categories ol {
-      list-style-position: inside;
-      padding-left: 0;
-      margin: 0;
-    }
-
-    .categories ol li {
-      font-size: 3rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="left-panel">
-      <h1>Scattergories Game</h1>
-      <div class="letter" id="letter">Press Start</div>
-      <div class="timer" id="timer">120</div>
-      <button onclick="startGame()">Start</button>
-      <button onclick="resetGame()">Reset</button>
-    </div>
-    <div class="right-panel">
-      <div class="categories" id="categories"></div>
-    </div>
-  </div>
-
-  
-  <audio id="bell-sound" src="bell.mp3" preload="auto"></audio>
+  <h1>Scattergories</h1>
+  <div id="letter">?</div>
+  <div id="timer">120</div>
+  <ul id="categories"></ul>
+  <button onclick="startGame()">Start Game</button>
 
   <script>
-    const validLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','W'];
-    
-    const allCategories = `
-U.S. Cities
-Things That Are Cold
-School Supplies
-Pro Sports Teams
-Insects
-Breakfast Foods
-Furniture
-T.V. Shows
-A Boy's Name
-U.S. Cities
-Things That Are Cold
-School Supplies
-Pro Sports Teams
-Insects
-Breakfast Foods
-Furniture
-T.V. Shows
-Things That Are Found in the Ocean
-Presidents
-Product Names
-Appliances
-Types of Drink
-Personality Traits
-Articles of Clothing
-Desserts
-Car Parts
-Things Found on a Map
-Athletes
-4-Letter Words
-Items in a Refrigerator
-Farm Animals
-Street Names
-Things on a Beach
-Colors
-Tools
-A Girl's Name
-Villains/Monsters
-Footwear
-Something You're Afraid Of
-Terms of Measurement
-Book Titles
-Heroes
-Gifts/Presents
-Kinds of Dances
-Things That Are Black
-Vehicles
-Tropical Locations
-College Majors
-Dairy Products
-Things in a Souvenir Shop
-Items in Your Purse/Wallet
-Famous Females
-Medicine/Drugs
-Things Made of Metal
-Hobbies
-People in Uniform
-Things You Plug In
-Animals
-Languages
-Names Used in the Bible
-Junk Food
-Things That Grow
-Companies
-Video Games
-Electronic Gadgets
-Board Games
-Things That Use a Remote
-Card Games
-Internet Lingo
-Offensive Words
-Wireless Things
-Computer Parts
-Software
-Websites
-Game Terms
-Things in a Grocery Store
-Reasons to Quit Your Job
-Things That Have Stripes
-Tourist Attractions
-Diet Foods
-Things Found in a Hospital
-Food/Drink That Is Green
-Weekend Activities
-Acronyms
-Seafood
-Christmas Songs
-Words Ending in -N
-Words With Double Letters
-Childrens Books
-Things Found at a Bar
-Sports Played Indoors
-Names Used in Songs
-Foods You Eat Raw
-Places in Europe
-Olympic Events
-Things You See at the Zoo
-Math Terms
-Animals in Books or Movies
-Things to Do at a Party
-Sandwiches
-Items in a Catalog
-World Leaders/Politicians
-School Subjects
-Excuses for Being Late
-Ice Cream Flavors
-Things That Jump/Bounce
-Television Stars
-Things in a Park
-Foreign Cities
-Stones/Gems
-Musical Instruments
-Nicknames
-Things in the Sky
-Pizza Toppings
-Colleges/Universities
-Fish
-Countries
-Things That Have Spots
-Historical Figures
-Terms of Endearment
-Items in This Room
-Fictional Characters
-Menu Items
-Magazines
-Capitals
-Kinds of Candy
-Items You Save Up to Buy
-Footware
-Something You Keep Hidden
-Items in a Suitcase
-Things With Tails
-Sports Equipment
-Crimes
-Things That Are Sticky
-Awards/Ceremonies
-Cars
-Spices/Herbs
-Bad Habits
-Cosmetics/Toiletries
-Celebrities
-Cooking Utensils
-Reptiles/Amphibians
-Parks
-Leisure Activities
-Things You're Allergic To
-Restaurants
-Notorious People
-Fruits
-Things in a Medicine Cabinet
-Toys
-Household Chores
-Bodies of Water
-Authors
-Halloween Costumes
-Weapons
-Things That Are Round
-Words Associated With Exercise
-Sports
-Song Titles
-Parts of the Body
-Ethnic Foods
-Things You Shout
-Birds
-Methods of Transportation
-Items in a Kitchen
-Flowers
-Things You Replace
-Famous Duos and Trios
-Things Found in a Desk
-Vacation Spots
-Diseases
-Words Associated With Money
-Items in a Vending Machine
-Movie Titles
-Games
-Things That You Wear
-Beers
-Things at a Circus
-Vegetables
-States
-Things You Throw Away
-Occupations
-Cartoon Characters
-Types of Drinks
-Musical Groups
-Store Names
-Things at a Football Game
-Trees
-Kinds of Soup
-Things Found in New York
-Things You Get Tickets For
-Things You Do at Work
-Foreign Words Used in English
-Things You Shouldn't Touch
-Spicy Foods
-Things at a Carnival
-Things You Make
-Places to Hang Out
-Computer Programs
-Honeymoon Spots
-Things You Buy for Kids
-Things That Can Kill You
-Reasons to Take Out a Loan
-Words Associated With Winter
-Things to Do on a Date
-Historic Events
-Things You Store Items In
-Things You Do Every Day
-Things You Get in the Mail
-Things You Sit In/On
-Reasons to Make a Phone Call
-Types of Weather
-Titles People Can Have
-Things That Have Buttons
-Items You Take on a Trip
-Things That Have Wheels
-Reasons to Call 911
-Things That Make You Smile
-Ways to Kill Time
-Things That Can Get You Fired
-Holiday Activities
-Conspiracy Theories
-Words That Sound Gross
-Things You Do on a Rainy Day
-Things That Are Shiny
-Things You Can’t Touch
-Things You Keep a Secret
-Things That Melt
-Things That Are Invisible
-Things That Are Pointy
-Things That Are Soft
-Things That Are Slimy
-Things That Are Sticky (again)
-Things That Are Crunchy
-Things That Taste Bitter
-Things That Are Itchy
-Things That Make You Cry
-Things That Are Annoying
-Things You Do When You're Bored
-Things You Whisper
-Things That Make You Gag
-Things That Smell Bad
-Things That Make You Laugh
-Things You Do When You're Alone
-Things That Are Addictive
-Things That Are Creepy
-Things That Are Embarrassing
-Things That Are Red
-Things That Are Blue
-Things That Are Green
-Things That Are Orange
-Things That Are Purple
-Things That Are Yellow
-Things That Are Pink
-Things That Are Brown
-Things That Are White
-Things That Are Grey
-Things That Are Black (again)
-Things That Are Silver
-Things That Are Gold
-Things That Are Clear
-Things That Are Noisy
-Things That Are Quiet
-Things That Are Expensive
-Things That Are Cheap
-Things That Are Dangerous
-Things That Are Safe
-Things That Are Fast
-Things That Are Slow
-Things That Are Hot
-Things That Are Cold (again)
-Things That Are Wet
-Things That Are Dry
-Things That Are Heavy
-Things That Are Light
-Things That Are Hard
-Things That Are Soft (again)
-Things That Are Fuzzy
-Things That Are Hairy
-Things That Are Spiky
-Things That Are Bumpy
-Things That Are Smooth
-Things That Are Rough
-Things That Are Sharp
-Things That Are Dull
-Things That Are Long
-Things That Are Short
-Things That Are Round (again)
-Things That Are Square
-Things That Are Rectangular
-Things That Are Triangular
-Things That Are Flat
-Things That Are Curved
-Things That Are Twisted
-Things That Are Wavy
-Things That Are Straight
-Things That Are Thin
-Things That Are Thick;`
+    const allCategories = [
+      "Boy's Name",
+      "Girl's Name",
+      "Country",
+      "Animal",
+      "Food",
+      "Movie Title",
+      "Book Title",
+      "City",
+      "TV Show",
+      "Famous Person",
+      "Clothing",
+      "Sport"
+      // Add more categories here!
+    ];
 
-    const categories = allCategories.trim().split('\n').map(c => c.trim()).filter(Boolean);
+    const allowedLetters = [
+      "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+      "K", "L", "M", "N", "O", "P", "R", "S", "T", "W"
+    ];
 
+    let usedLetters = [];
+    let usedCategorySets = [];
+    let currentRound = 0;
     let timerInterval;
-    let timeLeft = 120;
 
-    const tickSound = document.getElementById('tick-sound');
-    const bellSound = document.getElementById('bell-sound');
-
-    function getRandomLetter() {
-      const index = Math.floor(Math.random() * validLetters.length);
-      return validLetters[index];
+    function getUniqueLetter() {
+      const available = allowedLetters.filter(l => !usedLetters.includes(l));
+      if (available.length === 0) usedLetters = []; // Reset if all used
+      const letter = available[Math.floor(Math.random() * available.length)];
+      usedLetters.push(letter);
+      return letter;
     }
 
-    function getRandomCategories(num = 12) {
-      const shuffled = [...categories].sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, num);
+    function getUniqueCategories(allCats, count = 12) {
+      const maxAttempts = 10;
+      let attempt = 0;
+      let selected;
+      do {
+        selected = allCats
+          .slice()
+          .sort(() => Math.random() - 0.5)
+          .slice(0, count);
+        attempt++;
+      } while (
+        usedCategorySets.some(set => arraysEqual(set, selected)) &&
+        attempt < maxAttempts
+      );
+      usedCategorySets.push(selected);
+      return selected;
     }
 
-    function startTimer() {
-      const timerEl = document.getElementById('timer');
-      timeLeft = 120;
-      timerEl.textContent = timeLeft;
-
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        timerEl.textContent = timeLeft;
-
-        if (timeLeft > 0) {
-          tickSound.currentTime = 0;
-        } else {
-          clearInterval(timerInterval);
-          bellSound.play();
-        }
-      }, 1000);
+    function arraysEqual(a, b) {
+      if (a.length !== b.length) return false;
+      return a.every((val, i) => val === b[i]);
     }
 
     function startGame() {
-      document.getElementById('letter').textContent = getRandomLetter();
-      const selectedCategories = getRandomCategories();
-      const catHTML = selectedCategories.map(c => `<li>${c}</li>`).join('');
-      document.getElementById('categories').innerHTML = `<ol>${catHTML}</ol>`;
-      clearInterval(timerInterval);
+      if (currentRound >= 3) {
+        usedLetters = [];
+        usedCategorySets = [];
+        currentRound = 0;
+      }
+
+      currentRound++;
+
+      const letter = getUniqueLetter();
+      const categories = getUniqueCategories(allCategories, 12);
+
+      document.getElementById("letter").textContent = letter;
+
+      const list = document.getElementById("categories");
+      list.innerHTML = "";
+      categories.forEach(cat => {
+        const li = document.createElement("li");
+        li.textContent = cat;
+        list.appendChild(li);
+      });
+
       startTimer();
     }
 
-    function resetGame() {
+    function startTimer() {
       clearInterval(timerInterval);
-      document.getElementById('letter').textContent = 'Press Start';
-      document.getElementById('timer').textContent = '120';
-      document.getElementById('categories').innerHTML = '';
+      let timeLeft = 120;
+      const timerDisplay = document.getElementById("timer");
+      timerDisplay.textContent = timeLeft;
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
     }
   </script>
 </body>
