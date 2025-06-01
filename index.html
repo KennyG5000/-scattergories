@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Scattergories Game</title>
   <style>
@@ -12,37 +12,49 @@
       width: 100%;
       font-family: Arial, sans-serif;
       background: #f0f0f0;
-      overflow: hidden; /* Prevent scrolling */
+      overflow: hidden;
     }
 
     #app {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
       height: 100%;
-      padding: 2vh 2vw;
+      width: 100%;
       box-sizing: border-box;
+      padding: 2vh 2vw;
     }
 
-    .top {
-      text-align: center;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     #round-info {
       font-size: 3.5vw;
-      margin-bottom: 1vh;
+    }
+
+    #start-btn {
+      font-size: 2.5vw;
+      padding: 1vh 2vw;
+      cursor: pointer;
+    }
+
+    .main-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2vh 0;
+      gap: 4vw;
     }
 
     #letter {
       font-size: 14vw;
       font-weight: bold;
-      margin-bottom: 1vh;
     }
 
     #timer {
-      font-size: 8vw;
-      margin-bottom: 2vh;
+      font-size: 10vw;
     }
 
     #categories {
@@ -51,24 +63,18 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: flex-start;
+      overflow-y: auto;
       gap: 1vh 2vw;
-      overflow: hidden;
-      max-width: 95vw;
-      margin-bottom: 2vh;
+      padding: 1vh 0;
     }
 
     .category {
       font-size: 3.5vw;
       flex: 1 1 calc(25% - 2vw);
       text-align: center;
+      padding: 0.5vh;
+      box-sizing: border-box;
       word-wrap: break-word;
-    }
-
-    button {
-      font-size: 3.5vw;
-      padding: 1vh 2vw;
-      margin-top: 1vh;
-      cursor: pointer;
     }
 
     @media (max-aspect-ratio: 4/3) {
@@ -77,7 +83,7 @@
       }
 
       #timer {
-        font-size: 6vw;
+        font-size: 7vw;
       }
 
       .category {
@@ -85,21 +91,25 @@
         flex: 1 1 calc(33% - 2vw);
       }
 
-      button {
-        font-size: 4.5vw;
+      #start-btn {
+        font-size: 3.5vw;
       }
     }
   </style>
 </head>
 <body>
   <div id="app">
-    <div class="top">
+    <div class="header">
       <div id="round-info">Round 1 of 3</div>
+      <button id="start-btn" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div class="main-info">
       <div id="letter">?</div>
       <div id="timer">120</div>
     </div>
+
     <div id="categories"></div>
-    <button id="start-btn" onclick="startGame()">Start Game</button>
   </div>
 
   <script>
@@ -107,7 +117,7 @@
       "Boy's Name", "Girl's Name", "Country", "Animal", "Food",
       "Movie Title", "Book Title", "City", "TV Show", "Famous Person",
       "Clothing", "Sport"
-      // Add more here
+      // Add more if needed
     ];
 
     const allowedLetters = [
