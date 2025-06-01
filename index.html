@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scattergories Game</title>
   <style>
     html, body {
@@ -45,16 +45,19 @@
       justify-content: center;
       align-items: center;
       margin: 2vh 0;
-      gap: 4vw;
+      gap: 5vw;
     }
 
     #letter {
       font-size: 14vw;
       font-weight: bold;
+      color: #0077cc;
     }
 
     #timer {
       font-size: 10vw;
+      font-weight: bold;
+      color: #cc3300;
     }
 
     #categories {
@@ -63,7 +66,6 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: flex-start;
-      overflow-y: auto;
       gap: 1vh 2vw;
       padding: 1vh 0;
     }
@@ -106,275 +108,278 @@
 
     <div class="main-info">
       <div id="letter">?</div>
-      <div id="timer">120</div>
+      <div id="timer">180</div>
     </div>
 
     <div id="categories"></div>
   </div>
 
   <script>
-const categories = [
-  "4-Letter Words",
-  "A Boy's Name",
-  "A Girl's Name",
-  "Acronyms",
-  "Animals",
-  "Animals in Books or Movies",
-  "Appliances",
-  "Articles of Clothing",
-  "Athletes",
-  "Authors",
-  "Bad Habits",
-  "Birds",
-  "Board Games",
-  "Bodies of Water",
-  "Book Titles",
-  "Breakfast Foods",
-  "Capitals",
-  "Car Parts",
-  "Cars",
-  "Cartoon Characters",
-  "Celebrities",
-  "Childrens Books",
-  "Christmas Songs",
-  "Cities",
-  "Clothing",
-  "College Majors",
-  "Colleges/Universities",
-  "Colors",
-  "Companies",
-  "Computer Parts",
-  "Computer Programs",
-  "Conspiracy Theories",
-  "Cooking Utensils",
-  "Countries",
-  "Crimes",
-  "Dairy Products",
-  "Desserts",
-  "Diet Foods",
-  "Disney characters",
-  "Diseases",
-  "Electronic Gadgets",
-  "Ethnic Foods",
-  "Excuses for Being Late",
-  "Expensive Items",
-  "Famous Duos and Trios",
-  "Famous Females",
-  "Fictional Characters",
-  "Fish",
-  "Flowers",
-  "Food/Drink That Is Green",
-  "Footwear",
-  "Footware",
-  "Foreign Cities",
-  "Foreign Words Used in English",
-  "Fruits",
-  "Furniture",
-  "Game Terms",
-  "Games",
-  "Gifts/Presents",
-  "Halloween Costumes",
-  "Heroes",
-  "Historic Events",
-  "Historical Figures",
-  "Hobbies",
-  "Holiday Activities",
-  "Honeymoon Spots",
-  "Horror movies",
-  "Household Chores",
-  "Ice Cream Flavors",
-  "Insects",
-  "Internet Lingo",
-  "Items in a Catalog",
-  "Items in a Kitchen",
-  "Items in a Refrigerator",
-  "Items in a Suitcase",
-  "Items in This Room",
-  "Items in Your Purse/Wallet",
-  "Items in a Vending Machine",
-  "Items You Take on a Trip",
-  "Items You Throw Away",
-  "Items You Take on a Trip",
-  "Items You Take on a Trip",
-  "Junk Food",
-  "Kinds of Dances",
-  "Kinds of Soup",
-  "Languages",
-  "Leisure Activities",
-  "Magazines",
-  "Math Terms",
-  "Medicine/Drugs",
-  "Menu Items",
-  "Methods of Transportation",
-  "Movie Titles",
-  "Musical Groups",
-  "Musical Instruments",
-  "Names Used in Songs",
-  "Names Used in the Bible",
-  "Nicknames",
-  "Non Alcoholic Drinks",
-  "Notorious People",
-  "Occupations",
-  "Offensive Words",
-  "Olympic Events",
-  "Parks",
-  "Parts of the Body",
-  "People in Uniform",
-  "Personality Traits",
-  "Places in Europe",
-  "Places to Hang Out",
-  "Pizza Toppings",
-  "Powers or Abilities",
-  "Presidents",
-  "Pro Sports Teams",
-  "Product Names",
-  "Reasons to Call 911",
-  "Reasons to Make a Phone Call",
-  "Reasons to Quit Your Job",
-  "Reasons to Take Out a Loan",
-  "Reptiles/Amphibians",
-  "Restaurants",
-  "Sandwiches",
-  "School Subjects",
-  "School Supplies",
-  "Seafood",
-  "Software",
-  "Song Titles",
-  "Something You're Afraid Of",
-  "Spices/Herbs",
-  "Sports",
-  "Sports Equipment",
-  "Sports Played Indoors",
-  "States",
-  "Stones/Gems",
-  "Store Names",
-  "Street Names",
-  "Superheroes",
-  "Television Stars",
-  "Terms of Endearment",
-  "Terms of Measurement",
-  "Things Found on a Desk",
-  "Things Found on a Map",
-  "Things Found in a Hospital",
-  "Things Found in New York",
-  "Things Found in the Ocean",
-  "Things That Are Addictive",
-  "Things That Are Annoying",
-  "Things That Are Black",
-  "Things That Are Blue",
-  "Things That Are Bumpy",
-  "Things That Are Cheap",
-  "Things That Are Clear",
-  "Things That Are Cold",
-  "Things That Are Crunchy",
-  "Things That Are Dangerous",
-  "Things That Are Dry",
-  "Things That Are Embarrassing",
-  "Things That Are Expensive",
-  "Things That Are Fast",
-  "Things That Are Fuzzy",
-  "Things That Are Gold",
-  "Things That Are Green",
-  "Things That Are Grey",
-  "Things That Are Hairy",
-  "Things That Are Hard",
-  "Things That Are Heavy",
-  "Things That Are Hot",
-  "Things That Are Invisible",
-  "Things That Are Itchy",
-  "Things That Are Light",
-  "Things That Are Long",
-  "Things That Are Noisy",
-  "Things That Are Orange",
-  "Things That Are Pink",
-  "Things That Are Pointy",
-  "Things That Are Red",
-  "Things That Are Round",
-  "Things That Are Safe",
-  "Things That Are Shiny",
-  "Things That Are Short",
-  "Things That Are Silver",
-  "Things That Are Slimy",
-  "Things That Are Slow",
-  "Things That Are Soft",
-  "Things That Are Spiky",
-  "Things That Are Square",
-  "Things That Are Sticky",
-  "Things That Are Straight",
-  "Things That Are Twisted",
-  "Things That Are Wet",
-  "Things That Are White",
-  "Things That Are Yellow",
-  "Things That Can Get You Fired",
-  "Things That Can Kill You",
-  "Things That Grow",
-  "Things That Have Buttons",
-  "Things That Have Spots",
-  "Things That Have Stripes",
-  "Things That Have Wheels",
-  "Things That Jump/Bounce",
-  "Things That Make You Cry",
-  "Things That Make You Gag",
-  "Things That Make You Laugh",
-  "Things That Make You Smile",
-  "Things That Melt",
-  "Things That Smell Bad",
-  "Things That Taste Bitter",
-  "Things That Use a Remote",
-  "Things That You Wear",
-  "Things That You Buy for Kids",
-  "Things To Do at a Party",
-  "Things To Do on a Date",
-  "Things To Do When You're Bored",
-  "Things To Do When You're Alone",
-  "Things To Do on a Rainy Day",
-  "Things You Buy for Kids",
-  "Things You Can't Touch",
-  "Things You Do Every Day",
-  "Things You Do at Work",
-  "Things You Find in the Bathroom",
-  "Things You Get in the Mail",
-  "Things You Get Tickets For",
-  "Things You Keep a Secret",
-  "Things You Keep Hidden",
-  "Things You Make",
-  "Things You Plug In",
-  "Things You See at the Zoo",
-  "Things You Shouldn't Touch",
-  "Things You Sit In/On",
-  "Things You Store Items In",
-  "Things You Throw Away",
-  "Things You Whisper",
-  "Things You're Allergic To",
-  "Titles People Can Have",
-  "Tools",
-  "Toys",
-  "Tree Types",
-  "Trees",
-  "Tropical Locations",
-  "TV Shows",
-  "Types of Candy",
-  "Types of Drink",
-  "Types of Weather",
-  "U.S. Cities",
-  "Vacation Spots",
-  "Vehicles",
-  "Video Games",
-  "Villains/Monsters",
-  "Websites",
-  "Weapons",
-  "Weekend Activities",
-  "Ways to Kill Time",
-  "Websites",
-  "Wireless Things",
-  "Words Associated With Exercise",
-  "Words Associated With Money",
-  "Words Associated With Winter",
-  "Words Ending in -N",
-  "Words That Sound Gross",
-  "World Leaders/Politicians"
-];
+    const categoryText = `
+4-Letter Words  
+A Boy's Name  
+A Girl's Name  
+Acronyms  
+Animals  
+Animals in Books or Movies  
+Appliances  
+Articles of Clothing  
+Athletes  
+Authors  
+Bad Habits  
+Birds  
+Board Games  
+Bodies of Water  
+Book Titles  
+Breakfast Foods  
+Capitals  
+Car Parts  
+Cars  
+Cartoon Characters  
+Celebrities  
+Childrens Books  
+Christmas Songs  
+Cities  
+Clothing  
+College Majors  
+Colleges/Universities  
+Colors  
+Companies  
+Computer Parts  
+Computer Programs  
+Conspiracy Theories  
+Cooking Utensils  
+Countries  
+Crimes  
+Dairy Products  
+Desserts  
+Diet Foods  
+Disney characters  
+Diseases  
+Electronic Gadgets  
+Ethnic Foods  
+Excuses for Being Late  
+Expensive Items  
+Famous Duos and Trios  
+Famous Females  
+Fictional Characters  
+Fish  
+Flowers  
+Food/Drink That Is Green  
+Footwear  
+Foreign Cities  
+Foreign Words Used in English  
+Fruits  
+Furniture  
+Game Terms  
+Games  
+Gifts/Presents  
+Halloween Costumes  
+Heroes  
+Historic Events  
+Historical Figures  
+Hobbies  
+Holiday Activities  
+Honeymoon Spots  
+Horror movies  
+Household Chores  
+Ice Cream Flavors  
+Insects  
+Internet Lingo  
+Items in a Catalog  
+Items in a Kitchen  
+Items in a Refrigerator  
+Items in a Suitcase  
+Items in This Room  
+Items in Your Purse/Wallet  
+Items in a Vending Machine  
+Items You Take on a Trip  
+Items You Throw Away  
+Junk Food  
+Kinds of Dances  
+Kinds of Soup  
+Languages  
+Leisure Activities  
+Magazines  
+Math Terms  
+Medicine/Drugs  
+Menu Items  
+Methods of Transportation  
+Movie Titles  
+Musical Groups  
+Musical Instruments  
+Names Used in Songs  
+Names Used in the Bible  
+Nicknames  
+Non Alcoholic Drinks  
+Notorious People  
+Occupations  
+Offensive Words  
+Olympic Events  
+Parks  
+Parts of the Body  
+People in Uniform  
+Personality Traits  
+Places in Europe  
+Places to Hang Out  
+Pizza Toppings  
+Powers or Abilities  
+Presidents  
+Pro Sports Teams  
+Product Names  
+Reasons to Call 911  
+Reasons to Make a Phone Call  
+Reasons to Quit Your Job  
+Reasons to Take Out a Loan  
+Reptiles/Amphibians  
+Restaurants  
+Sandwiches  
+School Subjects  
+School Supplies  
+Seafood  
+Software  
+Song Titles  
+Something You're Afraid Of  
+Spices/Herbs  
+Sports  
+Sports Equipment  
+Sports Played Indoors  
+States  
+Stones/Gems  
+Store Names  
+Street Names  
+Superheroes  
+Television Stars  
+Terms of Endearment  
+Terms of Measurement  
+Things Found on a Desk  
+Things Found on a Map  
+Things Found in a Hospital  
+Things Found in New York  
+Things Found in the Ocean  
+Things That Are Addictive  
+Things That Are Annoying  
+Things That Are Black  
+Things That Are Blue  
+Things That Are Bumpy  
+Things That Are Cheap  
+Things That Are Clear  
+Things That Are Cold  
+Things That Are Crunchy  
+Things That Are Dangerous  
+Things That Are Dry  
+Things That Are Embarrassing  
+Things That Are Expensive  
+Things That Are Fast  
+Things That Are Fuzzy  
+Things That Are Gold  
+Things That Are Green  
+Things That Are Grey  
+Things That Are Hairy  
+Things That Are Hard  
+Things That Are Heavy  
+Things That Are Hot  
+Things That Are Invisible  
+Things That Are Itchy  
+Things That Are Light  
+Things That Are Long  
+Things That Are Noisy  
+Things That Are Orange  
+Things That Are Pink  
+Things That Are Pointy  
+Things That Are Red  
+Things That Are Round  
+Things That Are Safe  
+Things That Are Shiny  
+Things That Are Short  
+Things That Are Silver  
+Things That Are Slimy  
+Things That Are Slow  
+Things That Are Soft  
+Things That Are Spiky  
+Things That Are Square  
+Things That Are Sticky  
+Things That Are Straight  
+Things That Are Twisted  
+Things That Are Wet  
+Things That Are White  
+Things That Are Yellow  
+Things That Can Get You Fired  
+Things That Can Kill You  
+Things That Grow  
+Things That Have Buttons  
+Things That Have Spots  
+Things That Have Stripes  
+Things That Have Wheels  
+Things That Jump/Bounce  
+Things That Make You Cry  
+Things That Make You Gag  
+Things That Make You Laugh  
+Things That Make You Smile  
+Things That Melt  
+Things That Smell Bad  
+Things That Taste Bitter  
+Things That Use a Remote  
+Things That You Wear  
+Things That You Buy for Kids  
+Things To Do at a Party  
+Things To Do on a Date  
+Things To Do When You're Bored  
+Things To Do When You're Alone  
+Things To Do on a Rainy Day  
+Things You Can't Touch  
+Things You Do Every Day  
+Things You Do at Work  
+Things You Find in the Bathroom  
+Things You Get in the Mail  
+Things You Get Tickets For  
+Things You Keep a Secret  
+Things You Keep Hidden  
+Things You Make  
+Things You Plug In  
+Things You See at the Zoo  
+Things You Shouldn't Touch  
+Things You Sit In/On  
+Things You Store Items In  
+Things You Whisper  
+Things You're Allergic To  
+Titles People Can Have  
+Tools  
+Toys  
+Tree Types  
+Trees  
+Tropical Locations  
+TV Shows  
+Things related to YouTube
+Horror movies
+Superhero movies
+Things relates to horror games
+Types of Candy  
+Types of Drink  
+Types of Weather  
+U.S. Cities  
+Vacation Spots  
+Vehicles  
+Video Games  
+Villains/Monsters  
+Websites  
+Weapons  
+Weekend Activities  
+Ways to Kill Time  
+Wireless Things  
+Words Associated With Exercise  
+Words Associated With Money  
+Words Associated With Winter  
+Words Ending in -N  
+Words That Sound Gross  
+World Leaders/Politicians
+`.trim();
 
+    const allCategories = Array.from(new Set(
+      categoryText.split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0)
+    ));
 
     const allowedLetters = [
       "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
@@ -431,10 +436,10 @@ const categories = [
       const categories = getUniqueCategories(12);
       const categoryContainer = document.getElementById("categories");
       categoryContainer.innerHTML = "";
-      categories.forEach(cat => {
+      categories.forEach((cat, idx) => {
         const div = document.createElement("div");
         div.className = "category";
-        div.textContent = cat;
+        div.textContent = `${idx + 1}. ${cat}`;
         categoryContainer.appendChild(div);
       });
 
@@ -455,7 +460,7 @@ const categories = [
 
     function startTimer() {
       clearInterval(timerInterval);
-      let timeLeft = 120;
+      let timeLeft = 180;
       const timerDisplay = document.getElementById("timer");
       timerDisplay.textContent = timeLeft;
 
