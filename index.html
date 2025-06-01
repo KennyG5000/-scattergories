@@ -1,76 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Scattergories Timer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scattergories Game</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2vh;
+    html, body {
       margin: 0;
-      background-color: #f0f0f0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      overflow: hidden; /* Prevent scrolling */
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      padding: 2vh 2vw;
       box-sizing: border-box;
     }
 
-    h1 {
-      font-size: 5vw;
+    .top {
+      text-align: center;
+    }
+
+    #round-info {
+      font-size: 3.5vw;
+      margin-bottom: 1vh;
     }
 
     #letter {
-      font-size: 15vw;
-      margin: 2vh 0;
+      font-size: 14vw;
+      font-weight: bold;
+      margin-bottom: 1vh;
     }
 
     #timer {
-      font-size: 10vw;
-      margin: 2vh 0;
+      font-size: 8vw;
+      margin-bottom: 2vh;
     }
 
-    ul#categories {
-      list-style: none;
-      padding: 0;
-      margin: 2vh auto;
-      width: 90vw;
-      font-size: 4vw;
+    #categories {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 1vh 2vw;
+      overflow: hidden;
+      max-width: 95vw;
+      margin-bottom: 2vh;
     }
 
-    li {
-      padding: 1vh 0;
+    .category {
+      font-size: 3.5vw;
+      flex: 1 1 calc(25% - 2vw);
+      text-align: center;
       word-wrap: break-word;
-      white-space: normal;
     }
 
     button {
-      font-size: 4vw;
+      font-size: 3.5vw;
       padding: 1vh 2vw;
-      margin-top: 2vh;
+      margin-top: 1vh;
       cursor: pointer;
+    }
+
+    @media (max-aspect-ratio: 4/3) {
+      #letter {
+        font-size: 10vw;
+      }
+
+      #timer {
+        font-size: 6vw;
+      }
+
+      .category {
+        font-size: 4.5vw;
+        flex: 1 1 calc(33% - 2vw);
+      }
+
+      button {
+        font-size: 4.5vw;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Scattergories</h1>
-  <div id="letter">?</div>
-  <div id="timer">120</div>
-  <ul id="categories"></ul>
-  <button onclick="startGame()">Start Game</button>
+  <div id="app">
+    <div class="top">
+      <div id="round-info">Round 1 of 3</div>
+      <div id="letter">?</div>
+      <div id="timer">120</div>
+    </div>
+    <div id="categories"></div>
+    <button id="start-btn" onclick="startGame()">Start Game</button>
+  </div>
 
   <script>
     const allCategories = [
-      "Boy's Name",
-      "Girl's Name",
-      "Country",
-      "Animal",
-      "Food",
-      "Movie Title",
-      "Book Title",
-      "City",
-      "TV Show",
-      "Famous Person",
-      "Clothing",
-      "Sport"
-      // Add more categories here!
+      "Boy's Name", "Girl's Name", "Country", "Animal", "Food",
+      "Movie Title", "Book Title", "City", "TV Show", "Famous Person",
+      "Clothing", "Sport"
+      // Add more here
     ];
 
     const allowedLetters = [
@@ -85,58 +122,69 @@
 
     function getUniqueLetter() {
       const available = allowedLetters.filter(l => !usedLetters.includes(l));
-      if (available.length === 0) usedLetters = []; // Reset if all used
+      if (available.length === 0) usedLetters = [];
       const letter = available[Math.floor(Math.random() * available.length)];
       usedLetters.push(letter);
       return letter;
     }
 
-    function getUniqueCategories(allCats, count = 12) {
-      const maxAttempts = 10;
-      let attempt = 0;
+    function getUniqueCategories(count = 12) {
       let selected;
+      let attempt = 0;
       do {
-        selected = allCats
+        selected = allCategories
           .slice()
-          .sort(() => Math.random() - 0.5)
+          .sort(() => 0.5 - Math.random())
           .slice(0, count);
         attempt++;
       } while (
         usedCategorySets.some(set => arraysEqual(set, selected)) &&
-        attempt < maxAttempts
+        attempt < 10
       );
       usedCategorySets.push(selected);
       return selected;
     }
 
     function arraysEqual(a, b) {
-      if (a.length !== b.length) return false;
-      return a.every((val, i) => val === b[i]);
+      return a.length === b.length && a.every((val, i) => val === b[i]);
     }
 
     function startGame() {
       if (currentRound >= 3) {
+        currentRound = 0;
         usedLetters = [];
         usedCategorySets = [];
-        currentRound = 0;
       }
 
       currentRound++;
+      document.getElementById("round-info").textContent = `Round ${currentRound} of 3`;
 
       const letter = getUniqueLetter();
-      const categories = getUniqueCategories(allCategories, 12);
-
       document.getElementById("letter").textContent = letter;
 
-      const list = document.getElementById("categories");
-      list.innerHTML = "";
+      const categories = getUniqueCategories(12);
+      const categoryContainer = document.getElementById("categories");
+      categoryContainer.innerHTML = "";
       categories.forEach(cat => {
-        const li = document.createElement("li");
-        li.textContent = cat;
-        list.appendChild(li);
+        const div = document.createElement("div");
+        div.className = "category";
+        div.textContent = cat;
+        categoryContainer.appendChild(div);
       });
 
+      updateButtonText();
       startTimer();
+    }
+
+    function updateButtonText() {
+      const button = document.getElementById("start-btn");
+      if (currentRound === 1) {
+        button.textContent = "Next Round";
+      } else if (currentRound === 2) {
+        button.textContent = "Final Round";
+      } else if (currentRound === 3) {
+        button.textContent = "Restart Game";
+      }
     }
 
     function startTimer() {
